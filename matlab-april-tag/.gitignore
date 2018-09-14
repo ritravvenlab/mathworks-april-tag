@@ -1,0 +1,17 @@
+#Source Folders
+apriltag-2016-12-01/
+april-tag-baseline/
+apriltags/
+BadSources/
+output/
+Project/
+pics/Y
+pics/R
+pics/P
+
+#Intermediate files
+*.asv
+*.mexw64
+*.slx
+*.slx.original
+*.db
