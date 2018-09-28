@@ -194,7 +194,7 @@ function ClusterList = ExportClusters(UF_Array,Magnitude,Edges)
 %     end
 
     %Create a logical array for faster indexing / display
-    logical_arr = ismember(UF_Array(:,1),Valid_Clusters);
+    logical_arr = ismember(Edges(:,2),Valid_Clusters);
     
     ClusterList = zeros(size(Edges,1),4);  %Empty matrix for clusters
     
