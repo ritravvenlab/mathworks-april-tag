@@ -1,4 +1,8 @@
 function lines = Segmenter(image_clusters,Theta,Mag,width,height)
+
+% Line Data Type
+%|  X1  |  Y1  |  X2  |  Y2  | theta | length |
+
 MinDist = 4;
 Cluster_Num = unique(image_clusters(:,4)); %Gets each unique cluster
 

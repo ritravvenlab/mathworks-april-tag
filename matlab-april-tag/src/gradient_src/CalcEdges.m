@@ -1,4 +1,14 @@
 function Edge = CalcEdges(Magnitude, Direction, MagThr, height, width)
+
+	%Magnitude = 1*N list of Magnitudes for the entire image
+	%Direction = 1*N list of Thetas for the entire image
+	%MagThr = Threshold
+	%Edges = 5*N list of correlated edges that have:
+    % 1. Cost
+	% 2. Ida (addr of current point) 
+	% 3. Idb (addr of next connected point) 
+	% 4. Point (x,y)
+		
     MinMag = MagThr;
     Edge = nan(100000,5);
     EdgeCnt = 1;

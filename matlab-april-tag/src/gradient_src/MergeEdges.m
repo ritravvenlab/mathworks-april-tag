@@ -1,4 +1,26 @@
 function Clusters = MergeEdges(Edges,Magnitude,Direction)
+
+	%%DataTypes
+	%Magnitude = 1*N list of Magnitudes for the entire image
+	
+	%Direction = 1*N list of Thetas for the entire image
+	
+	%Edges = 5*N list of correlated edges that have:
+    % 1. Cost
+	% 2. Ida (addr of current point) 
+	% 3. Idb (addr of next connected point) 
+	% 4. Point (x,y)
+	
+	%Clusters = 4*N list of Grouped Edge points
+	% 1. & 2. Point X,Y
+	% 3. Edge Magnitude
+	% 4. Edge Cluster ID
+	
+	%SimpleUF = width*height*2 list of groups and size of groups
+	% 1. Group ID (Starts the same as the addr)
+	% 2. Group size (Starts as 1)
+
+
     %Constants to export sometime
     thetaThr = 100;
     magThr = 1200;
@@ -85,17 +107,6 @@ function root = IgetRepresentative(UFArray,NodeId)
     end
 end
 
-% Gets the representative of the node
-function [root,UpdatedArray] = getRepresentative(UFArray,NodeId)
-    if(UFArray(NodeId,1) == NodeId) %If it is it's own rep return
-        root = NodeId;              %No changes
-    else
-        root = getRepresentative(UFArray,UFArray(NodeId,1)); %Recurse
-        UFArray(NodeId,1) = root; %Flatten the tree
-    end
-UpdatedArray = UFArray;   %Return the updated array
-end
-
 %connects and merges the two trees together
 function [UFArray,root] = IconnectNodes(UFArray, aId,bId,ValidIds)
 
@@ -126,47 +137,6 @@ function [UFArray,root] = IconnectNodes(UFArray, aId,bId,ValidIds)
     end
 end
 
-%connects and merges the two trees together
-function [NewUFArray,root] = connectNodes(UFArray, aId,bId)
-
-    [aRoot, UFArray] = getRepresentative(UFArray,aId); %Get rep of a
-    [bRoot, UFArray] = getRepresentative(UFArray,bId); %Get rep of b
-    NewUFArray = UFArray; %copy the array
-
-    if(aRoot==bRoot) %It's already connected!
-        root=aRoot;  %Return the root
-        return;
-    end
-    
-    if(UFArray(aRoot,2) > UFArray(bRoot,2)) %Larger tree wins!
-        NewUFArray(bRoot,1) = aRoot; %Set the new root
-        
-        %Add the sizes together
-        NewUFArray(aRoot,2) = NewUFArray(aRoot,2) + NewUFArray(bRoot,2);
-        
-        root=aRoot; %Return the new root
-        return;
-     else
-        NewUFArray(aRoot,1) = bRoot; %Set the new root
-        
-        %Add the sizes together
-        NewUFArray(bRoot,2) = NewUFArray(aRoot,2) + NewUFArray(bRoot,2);
-        
-        root=bRoot; %Return the new root
-        return;
-    end
-end
-
-function FixedTree = FlattenTree(OldRoot,NewRoot,UF_Array)
-Children_Idx = FindChildren(UF_Array,OldRoot); %Gets all children from root
-UF_Array(Children_Idx,1) = NewRoot;            %Shortcuts all children
-FixedTree = UF_Array;
-end
-
-function Nodes = FindChildren(UF_Array, ParentIdx)
-Nodes = find(UF_Array(:,1) == ParentIdx); %Finds all the children Idx
-end
-
 function longArray = ArraytoList(Array)
 Width = size(Array,2);
 Height  = size(Array,1);
@@ -187,12 +157,6 @@ function ClusterList = ExportClusters(UF_Array,Magnitude,Edges)
     %find clusters that have more than the MinSeg
     Valid_Clusters = UF_Array((UF_Array(:,2) >= MinCluster),1);
     
-    %Extra check to flatten tree (not necessary)
-%     for k = 1:length(Valid_Clusters)
-%         root = getRepresentative(UF_Array,Valid_Clusters(k));
-%         UF_Array = FlattenTree(Valid_Clusters(k),root,UF_Array);
-%     end
-
     %Create a logical array for faster indexing / display
     logical_arr = ismember(Edges(:,2),Valid_Clusters);
     
