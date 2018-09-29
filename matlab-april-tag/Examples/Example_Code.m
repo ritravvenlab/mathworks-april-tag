@@ -16,13 +16,13 @@ if(usr_input == 3)
     if isequal(file,0)
         disp('User selected cancel')
     else
-        profile on;
+        %profile on;
         [Pose,Detection] = AprilTag(imread([path,file]),1,1);
-        profile viewer;
+        %profile viewer;
     end
 else
-    profile on;
+    %profile on;
     [Pose,Detection] = AprilTag(imread('../pics/test_tag.png'),1,1);
-    profile viewer;
+    %profile viewer;
 end
     

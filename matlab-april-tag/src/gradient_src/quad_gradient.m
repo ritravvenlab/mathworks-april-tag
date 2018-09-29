@@ -27,7 +27,7 @@ end
 
 gm = single(Ix.^2 + Iy.^2);   %Magnitude
 gd = single(atan2(Iy,Ix));    %Direction
-waitbar(0.5/5,h,'Finished Gradient Calculation');
+%waitbar(0.5/5,h,'Finished Gradient Calculation');
 if(debug == 1)
 figure('Name','Stage 2a: Gradient Magnitue');
 imagesc(gm);
@@ -43,9 +43,9 @@ min_mag = 0.004;
 %Stage 3: Edge Extraction
 image_edges = CalcEdges(ArraytoList(gm),ArraytoList(gd)...
     ,min_mag, height, width);
-waitbar(1/5,h,'Finished Calculating Edges');
+%waitbar(1/5,h,'Finished Calculating Edges');
 image_clusters = MergeEdges(image_edges,ArraytoList(gm),ArraytoList(gd)); %Merges the detected edges
-waitbar(1.5/5,h,'Finished Merging Edges');
+%waitbar(1.5/5,h,'Finished Merging Edges');
 if(debug == 1)
 %Debug Code for visualization
 Cluster_Num = unique(image_clusters(:,4)); %Gets each unique cluster
@@ -67,7 +67,7 @@ end
 MinCluster = 4;
 FoundSegs   = Segmenter(image_clusters,ArraytoList(gd)...
     ,ArraytoList(gm),width,height);
-waitbar(2/5,h,'Finished Segmenting');
+%waitbar(2/5,h,'Finished Segmenting');
 if(debug == 1)
     figure('Name','Segments');
     imshow(image_gray);
@@ -84,10 +84,10 @@ if(debug == 1)
 end
 %Stage 6: Chain Segments
 linked_segments = LinkSegs(FoundSegs);
-waitbar(2.5/5,h,'Finished Linking Segments');
+%waitbar(2.5/5,h,'Finished Linking Segments');
 %Stage 7: Find Quads
 quads = QuadDetection(linked_segments,FoundSegs);
-waitbar(3/5,h,'Finished Fitting Quads');
+%waitbar(3/5,h,'Finished Fitting Quads');
 if(debug == 1)
     %Debug visualization
     figure('Name','Detected Quads with intersections');
