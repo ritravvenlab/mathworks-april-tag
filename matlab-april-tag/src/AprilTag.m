@@ -65,9 +65,8 @@ end
 Detections = DecodeQuad(quads,image_gray,0);
 waitbar(4/5,h,'Finished Quad Decoding');
 
-%Stage 9: Remove Duplicates (Skipping For Now)
-%This part checks if the quad points are on top of eachother and then picks
-%the detection with the lower hamming distance or the larger one
+%Stage 9: Remove Duplicates
+Detections = RemoveDuplicates(Detections);
 
 %Stage 10?: Decode Pose From Detections
 Pose = PoseDecoding(Detections,TagSize,Fx,Fy,Px,Py);
