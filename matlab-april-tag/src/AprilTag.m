@@ -8,8 +8,8 @@ end
 if(nargin < 2)
     alg = 2;
 end
-
-h = waitbar(0,'Initalizing Apriltags');
+h = [];
+%h = waitbar(0,'Initalizing Apriltags');
 
 % if(debug == 1)
 %     figure('Name','Original Image');
@@ -63,14 +63,14 @@ end
 
 %Stage 8: Decode Quads
 Detections = DecodeQuad(quads,image_gray,0);
-waitbar(4/5,h,'Finished Quad Decoding');
+%waitbar(4/5,h,'Finished Quad Decoding');
 
 %Stage 9: Remove Duplicates
 Detections = RemoveDuplicates(Detections);
 
 %Stage 10?: Decode Pose From Detections
 Pose = PoseDecoding(Detections,TagSize,Fx,Fy,Px,Py);
-waitbar(5/5,h,'Finished Quad Decoding');
+%waitbar(5/5,h,'Finished Quad Decoding');
 
 % if(debug == 1)
 % sprintf('I found %i tag(s)\n',size(Detections,1))
