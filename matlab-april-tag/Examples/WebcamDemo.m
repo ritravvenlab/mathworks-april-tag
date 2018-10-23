@@ -1,13 +1,16 @@
 function WebcamDemo()
 clear('cam')
 cam  = webcam;
-cam.Resolution = '160x120';
+% cam.Resolution = '1920x1080';
+% cam.Resolution = '160x120';
 figure;
-for j = 1:500
+while(1)
     image = snapshot(cam);
     %profile on;
+    StartTime = tic;
     [Pose,Detections] = AprilTag(image,1);
-    Pose
+    fps = 1/toc(StartTime)
+    Detections
     %profile viewer;
     imshow(image);
     hold on;
