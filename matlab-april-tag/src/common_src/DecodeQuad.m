@@ -90,7 +90,7 @@ for i = 1:size(quads,1)
             irx = floor((px) + 0.5); %Get actual x value
             iry = floor((py)+ 0.5); %Get actual y value
             
-            if( irx < 0 || irx >= width || iry < 0 || iry >= height)
+            if( irx <= 0 || irx >= width || iry <= 0 || iry >= height)
                 bad = true;
                 continue;
             end

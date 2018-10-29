@@ -27,7 +27,7 @@ switch usr_input
             profile viewer;
         end
     case 4
-        [file, path] = uigetfile('../pics/test480p.mp4');
+        [file, path] = uigetfile('../pics/test.mp4');
         if isequal(file,0)
             disp('User selected cancel');
         else
@@ -38,19 +38,25 @@ switch usr_input
             output = struct('cdata',zeros(videoHeight,videoWidth,3,'uint8'),'colormap',[]);
             mkdir vidframes;
             vidDisp = figure;
+            fpsPlot = figure;
             FpsBuffer = zeros(1,10);
             k = 1;
+            FpsPlot = [];
+            
             while hasFrame(video)
                 CurrFrame = readFrame(video);
                 
                 tic;
-                [~,det] = AprilTag(CurrFrame,1);
+                [~,det] = AprilTag(CurrFrame);
                 FrameTime = toc;
                 
                 FpsBuffer(2:10) = FpsBuffer(1:9);
-                FpsBuffer(1) = FrameTime;
-                AvgFps = (sum(FpsBuffer)/10)^-1;
+                FpsBuffer(1) = (FrameTime)^-1;
+                AvgFps = sum(FpsBuffer)/10;
+                FpsPlot = [FpsPlot,FpsBuffer(1)];
                 
+                figure(fpsPlot);
+                plot(FpsPlot);
                 
                 figure(vidDisp); %Get Figure for displaying video
                 imshow(CurrFrame);   %Display Current Frame
@@ -69,7 +75,7 @@ switch usr_input
 %                 saveas(vidDisp,'test.png');
                 annotatedFrame = getframe;
                 output(k).cdata = annotatedFrame.cdata;
-                imwrite(CurrFrame,sprintf('vidframes/%05i.png',k));
+%                 imwrite(CurrFrame,sprintf('vidframes/%05i.png',k));
                 k = k + 1;
             end
             
