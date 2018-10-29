@@ -41,10 +41,10 @@ title('Preprocessing: Grayscale');
 end
 
 %Stage 1: Gaussian Blurring (Without toolbox)
-G = fspecial('gaussian',3,0.8); %Generate Gausian Filter
-% G = [0.05472157,0.11098164,0.05472157;
-%      0.11098164,0.22508352,0.11098164;
-%      0.05472157,0.11098164,0.05472157];
+%G = fspecial('gaussian',3,0.8); %Generate Gausian Filter
+ G = [0.05472157,0.11098164,0.05472157;
+      0.11098164,0.22508352,0.11098164;
+      0.05472157,0.11098164,0.05472157];
 image_blurred = conv2(image_gray,G,'same'); %Convolve across image
 
 
