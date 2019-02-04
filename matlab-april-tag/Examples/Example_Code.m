@@ -13,7 +13,7 @@ switch usr_input
         WebcamDemo;
     case 2
         profile on;
-        [Pose,Detection] = AprilTag(imread('../pics/test_tag.png'),1);
+        [Pose,Detection] = AprilTag(imread('../pics/test_tag.png'),1,1);
         Detection
         profile viewer;
     case 3
@@ -22,7 +22,7 @@ switch usr_input
             disp('User selected cancel')
         else
             profile on;
-            [Pose,Detection] = AprilTag(imread([path,file]),1);
+            [Pose,Detection] = AprilTag(imread([path,file]),1,1);
             Detection
             profile viewer;
         end
